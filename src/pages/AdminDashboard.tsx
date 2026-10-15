@@ -66,7 +66,7 @@ export default function AdminDashboard() {
             <h1>Good morning, Dr. Raymond 👋</h1>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <span className="status-tag confirmed">● System Online</span>
+            <span className="status-tag confirmed" title="Connected to SQLite (clinic.db)">● SQLite Active (clinic.db)</span>
           </div>
         </motion.div>
 

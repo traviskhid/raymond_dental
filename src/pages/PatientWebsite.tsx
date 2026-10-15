@@ -14,6 +14,9 @@ import {
 } from 'lucide-react'
 import heroBg from '../assets/hero-bg.png'
 import { inquiryService } from '../services/inquiries'
+import BeforeAfterSlider from '../components/BeforeAfterSlider'
+import MediaGallery from '../components/MediaGallery'
+import SpecialistsSection from '../components/SpecialistsSection'
 
 const services = [
   {
@@ -125,7 +128,9 @@ export default function PatientWebsite() {
         </div>
         <nav className="topnav">
           <a href="#services">Services</a>
-          <a href="#results">Results</a>
+          <a href="#media-gallery">Clinic Tour</a>
+          <a href="#results">Smile Gallery</a>
+          <a href="#specialists">Specialists</a>
           <a href="#contact">Contact</a>
         </nav>
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -211,6 +216,8 @@ export default function PatientWebsite() {
           </div>
         </motion.section>
 
+        <MediaGallery />
+
         <motion.section
           className="section-card split-layout"
           id="results"
@@ -225,13 +232,7 @@ export default function PatientWebsite() {
             <p className="section-copy">
               Our treatment planning blends artistry and advanced diagnostics so each smile feels natural, healthy, and beautifully confident.
             </p>
-            <div className="transformation-bar">
-              <div className="before-text">Before</div>
-              <div className="after-text">After</div>
-              {/* Note: In a real app, this would use a draggable before/after slider component */}
-              <div style={{ width: '50%', height: '100%', background: '#e0d8d0', borderRight: '2px solid #fff' }}></div>
-              <div style={{ width: '50%', height: '100%', background: '#fbfbf9', position: 'absolute', top: 0, right: 0, zIndex: -1 }}></div>
-            </div>
+            <BeforeAfterSlider />
           </motion.div>
 
           <motion.div className="testimonial-card" variants={childVariants}>
@@ -246,6 +247,8 @@ export default function PatientWebsite() {
             </div>
           </motion.div>
         </motion.section>
+
+        <SpecialistsSection />
 
         <motion.section
           className="section-card faq-contact-grid"

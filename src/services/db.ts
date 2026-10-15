@@ -1,8 +1,5 @@
 import { INITIAL_APPOINTMENTS, INITIAL_PATIENTS, INITIAL_SETTINGS, INITIAL_INQUIRIES } from '../pages/admin/types'
 
-// A mock delay to simulate network requests
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
 // Helper: check if a key has valid non-empty array data
 const needsSeed = (key: string): boolean => {
   const data = localStorage.getItem(key)
@@ -27,7 +24,7 @@ const needsObjectSeed = (key: string): boolean => {
   }
 }
 
-// Initialize DB if empty or missing
+// Initialize local cache fallback if empty
 export const initializeMockDB = () => {
   if (needsSeed('db_patients')) {
     localStorage.setItem('db_patients', JSON.stringify(INITIAL_PATIENTS))
@@ -48,13 +45,21 @@ initializeMockDB()
 
 export const db = {
   async get<T>(collection: string): Promise<T> {
-    await delay(300)
+    try {
+      const res = await fetch(`/api/${collection}`)
+      if (res.ok) {
+        const data = await res.json()
+        localStorage.setItem(`db_${collection}`, JSON.stringify(data))
+        return data as T
+      }
+    } catch {
+      // Fallback to offline localStorage
+    }
     const data = localStorage.getItem(`db_${collection}`)
-    return data ? JSON.parse(data) : null as T
+    return data ? JSON.parse(data) : (null as T)
   },
 
   async set<T>(collection: string, data: T): Promise<void> {
-    await delay(300)
     localStorage.setItem(`db_${collection}`, JSON.stringify(data))
-  }
+  },
 }
